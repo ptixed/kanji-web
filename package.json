@@ -2,12 +2,11 @@
   "name": "kanji2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "author": "ptixed",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "json-cyclic": "0.0.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   }
