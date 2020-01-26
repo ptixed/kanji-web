@@ -80,7 +80,11 @@ function getpage(url) {
                                 return 0;
                             })
                             .map(x => x.reading),
-                        kanjis: item.data.component_subject_ids
+                        kanjis: item.data.component_subject_ids,
+                        audios: item.data.pronunciation_audios.map(x => x.url),
+                        level: item.level,
+                        flag: false,
+                        note: ''
                     };
                     break;
             }

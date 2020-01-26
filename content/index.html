@@ -9,15 +9,15 @@
     <div id="app">
         <div id="menu">
             <div id="search">
-                <input type="text" />            
+                <input autofocus type="text" v-model="filter" />            
             </div>
             <div id="words">
-                <div v-for="item in data.words" v-on:click="select(item)">
+                <div v-for="item in filtered" v-on:click="select(item)" v-bind:class="{ secondary: item.flag, selected: item == word }">
                     {{item.value}}
                 </div>
             </div>
         </div>
-        <div id="content">
+        <div id="content" v-if="word != null">
             <div id="title">                
                 <div>{{ word.meanings[0] }}</div>
             </div>
@@ -32,37 +32,21 @@
                     <div>{{ kanji.value }}</div>
                     <div class="readings">
                         <div class="onyomi">
-                            <div v-for="onyomi in kanji.onyomi" >
-                                {{onyomi.reading}}
+                            <div v-for="onyomi in kanji.onyomi">
+                                <span v-bind:class="{ secondary: !onyomi.primary }" v-on:click="play(onyomi.reading)">
+                                    {{onyomi.reading}}
+                                </span>                                
                             </div>
                         </div>
                         <div class="kunyomi">
                             <div v-for="kunyomi in kanji.kunyomi" >
-                                {{kunyomi.reading}}
+                                <span v-bind:class="{ secondary: !kunyomi.primary }" v-on:click="play(kunyomi.reading)">
+                                    {{kunyomi.reading}}
+                                </span>
                             </div>                        
                         </div>
                     </div>
                 </div>
-                <!--
-                <table>
-                    <tr>
-                        <th style="color: #fff" colspan=2>人</th>
-                        <th style="color: #fff" colspan=2>口</th>
-                    </tr>
-                    <tr>
-                        <td>にん</td>
-                        <td style="color: #333">ひと</td>
-                        <td style="color: #fff">こう</td>
-                        <td style="color: #333">くち</td>
-                    </tr>
-                    <tr>
-                        <td style="color: #fff">じん</td>
-                        <td style="color: #333; ">と</td>
-                        <td>く</td>
-                        <td></td>
-                    </tr>
-                </table>
-                -->
             </div>        
         </div>
     </div>

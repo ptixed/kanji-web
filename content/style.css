@@ -1,6 +1,8 @@
 * {
     font-family: monospace;
     background: black;
+}
+html {
     color: white;
 }
 *::selection { 
@@ -11,42 +13,52 @@
     display: none;
 }
 input {
+    color: white;
     outline: 0;
-    font-size: 20px;
+    font-size: 2rem;
     border: none;
+}
+.secondary {
+    color: #333;
+}
+.selected {
+    color: black;
+    background: white;
 }
 #app {
     position: fixed;
-    left: 20px;
-    right: 20px;
-    top: 20px;
-    bottom: 20px;
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+    bottom: 1rem;
     display: flex;
     flex-direction: row;
 }
     #menu {
-        width: 200px;
-        padding-right: 20px;
-        font-size: 30px;
+        display: flex;
+        flex-direction: column;
+        width: 20rem;
+        padding-right: 1rem;
+        font-size: 2rem;
         text-align: center;
     }
         #search {
         
         }
         #words {
+            flex: 1;
             overflow-y: scroll;
             overflow-x: hidden;
-            height: 100%;
         }
     #content {
         flex: 1;
         display: flex;
         flex-direction: column;
-        font-size: 50px;
+        font-size: 5rem;
         text-align: center;
     }
         #title {
-            padding-top: 50px;
+            padding-top: 1rem;
         }
         #main {
             flex: 1;
@@ -55,10 +67,10 @@ input {
             justify-content: center;
         }
             #word {
-                font-size: 250px;
+                font-size: 15rem;
             }
             #word-reading {
-                padding-top: 50px;
+                padding-top: 1rem;
             }
         #kanjis {
             display: flex;
@@ -72,4 +84,11 @@ input {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
+                    color: #888;
                 }
+                    .onyomi {
+                        width: 100%;
+                    }
+                    .kunyomi {
+                        width: 100%;
+                    }
