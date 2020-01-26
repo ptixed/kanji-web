@@ -2,97 +2,72 @@
 
 <head>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="index.js"></script>
-<style>
-*::selection { 
-    color: black; 
-    background: white;
-}
-#grid {
-    heigth: 100%;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    grid-template-rows: 30px 350px 100px 1fr;
-    background: black;
-    color: white;
-    text-align: center;
-}
-#grid-1 {
-    grid-row: 1/5; 
-    grid-column: 1;
-    border-right: 1px white dotted;
-}
-#grid-1 input {
-    width: 100%;
-    height: 30px;
-    padding: 10px;
-    background: black;
-    color: white;
-    border: none;
-}
-#grid-2 {
-    grid-row: 1/2; 
-    grid-column: 2;
-    font-size: 250px;
-    padding-top: 40px;
-}
-#grid-3 {
-    grid-row: 3; 
-    grid-column: 2;
-    font-size: 50px;
-}
-#grid-4 {
-    grid-row: 4; 
-    grid-column: 2;
-    padding-top: 40px;
-}
-#grid-4 table {
-    width: 100%;
-    color: #888;
-    font-size: 50px;
-    text-align: center;
-}
-</style>
+<link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
-<body id="app">
-    <div id="grid">
-        <div id="grid-1">
-            <input type="text" placeholder="Search" />
+<body>
+    <div id="app">
+        <div id="menu">
+            <div id="search">
+                <input type="text" />            
+            </div>
+            <div id="words">
+                <div v-for="item in data.words" v-on:click="select(item)">
+                    {{item.value}}
+                </div>
+            </div>
         </div>
-        <div id="grid-2">
-            人口
-        </div>  
-        <div id="grid-3">
-            じんこう
-        </div>  
-        <div id="grid-4">
-            <!-- not table -->
-            <table>
-                <tr>
-                    <th style="color: #fff" colspan=2>人</th>
-                    <th style="color: #fff" colspan=2>口</th>
-                </tr>
-                <tr>
-                    <td>にん</td>
-                    <td style="color: #333">ひと</td>
-                    <td style="color: #fff">こう</td>
-                    <td style="color: #333">くち</td>
-                </tr>
-                <tr>
-                    <td style="color: #fff">じん</td>
-                    <td style="color: #333; ">と</td>
-                    <td>く</td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>    
+        <div id="content">
+            <div id="title">                
+                <div>{{ word.meanings[0] }}</div>
+            </div>
+            <div id="main">
+                <div id="word">{{word.value}}</div>  
+                <div id="word-reading">
+                    <div v-on:click="play">{{ word.readings[0] }}</div>
+                </div>                
+            </div>
+            <div id="kanjis">
+                <div class="kanji" v-for="kanji in word.kanjis" >
+                    <div>{{ kanji.value }}</div>
+                    <div class="readings">
+                        <div class="onyomi">
+                            <div v-for="onyomi in kanji.onyomi" >
+                                {{onyomi.reading}}
+                            </div>
+                        </div>
+                        <div class="kunyomi">
+                            <div v-for="kunyomi in kanji.kunyomi" >
+                                {{kunyomi.reading}}
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <table>
+                    <tr>
+                        <th style="color: #fff" colspan=2>人</th>
+                        <th style="color: #fff" colspan=2>口</th>
+                    </tr>
+                    <tr>
+                        <td>にん</td>
+                        <td style="color: #333">ひと</td>
+                        <td style="color: #fff">こう</td>
+                        <td style="color: #333">くち</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #fff">じん</td>
+                        <td style="color: #333; ">と</td>
+                        <td>く</td>
+                        <td></td>
+                    </tr>
+                </table>
+                -->
+            </div>        
+        </div>
     </div>
+    <script src="index.js"></script>
 </body>
 
+        
 </html>

@@ -1,0 +1,75 @@
+* {
+    font-family: monospace;
+    background: black;
+    color: white;
+}
+*::selection { 
+    color: black; 
+    background: white;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+input {
+    outline: 0;
+    font-size: 20px;
+    border: none;
+}
+#app {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+    #menu {
+        width: 200px;
+        padding-right: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+        #search {
+        
+        }
+        #words {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 100%;
+        }
+    #content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        font-size: 50px;
+        text-align: center;
+    }
+        #title {
+            padding-top: 50px;
+        }
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+            #word {
+                font-size: 250px;
+            }
+            #word-reading {
+                padding-top: 50px;
+            }
+        #kanjis {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+            .kanji {
+                flex-grow: 1;
+            }
+                .readings {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }

@@ -20,7 +20,7 @@ getpage(process.env.WANIKANIURL || "https://api.wanikani.com/v2/subjects");
 
 function getpage(url) {
     if (!url) {
-        fs.writeFileSync('db.json', JSON.stringify(data, null, 4));
+        fs.writeFileSync('content/db.json', JSON.stringify(data, null, 4));
         console.error('Download complete, data written to db.json');
         return;
     }
@@ -80,8 +80,7 @@ function getpage(url) {
                                 return 0;
                             })
                             .map(x => x.reading),
-                        kanjis: item.data.component_subject_ids,
-                        audios: item.data.pronunciation_audios.map(x => x.url)
+                        kanjis: item.data.component_subject_ids
                     };
                     break;
             }
