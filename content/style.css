@@ -60,6 +60,10 @@ input {
         #title {
             padding-top: 1rem;
         }
+            #level {
+                position: absolute;
+                right: 2rem;
+            }
         #main {
             flex: 1;
             display: flex;

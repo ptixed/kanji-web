@@ -13,7 +13,7 @@ var data = {
     timestamp: Date.now(),
     words: {},
     kanjis: {},
-    radicals: {}
+    //radicals: {}
 };
 
 getpage(process.env.WANIKANIURL || "https://api.wanikani.com/v2/subjects");
@@ -39,10 +39,10 @@ function getpage(url) {
         for (var item of response.data) {
             switch (item.object) {
                 case 'radical':
-                    data.radicals[item.id] = {
-                        value: item.data.characters,
-                        name: item.data.slug
-                    };
+                    // data.radicals[item.id] = {
+                        // value: item.data.characters,
+                        // name: item.data.slug
+                    // };
                     break;
                 case 'kanji':
                     data.kanjis[item.id] = {
@@ -59,7 +59,7 @@ function getpage(url) {
                                 primary: x.primary,
                                 reading: x.reading
                             })),
-                        radicals: item.data.component_subject_ids,
+                        //radicals: item.data.component_subject_ids,
                         words: item.data.amalgamation_subject_ids
                     };
                     break;

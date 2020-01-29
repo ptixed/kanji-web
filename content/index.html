@@ -12,13 +12,14 @@
                 <input autofocus type="text" v-model="filter" />            
             </div>
             <div id="words">
-                <div v-for="item in filtered" v-on:click="select(item)" v-bind:class="{ secondary: item.flag, selected: item == word }">
+                <div v-for="item in filtered" v-on:click="word = item; play();" v-bind:class="{ secondary: item.flag, selected: item == word }">
                     {{item.value}}
                 </div>
             </div>
         </div>
         <div id="content" v-if="word != null">
             <div id="title">
+                <span id="level">({{ word.level }})</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
