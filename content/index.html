@@ -18,13 +18,15 @@
             </div>
         </div>
         <div id="content" v-if="word != null">
-            <div id="title">                
-                <div>{{ word.meanings[0] }}</div>
+            <div id="title">
+                <div v-for="meaning in word.meanings">                
+                    <span>{{ meaning }}</span>
+                </div>
             </div>
             <div id="main">
                 <div id="word">{{word.value}}</div>  
                 <div id="word-reading">
-                    <div v-on:click="play">{{ word.readings[0] }}</div>
+                    <div>{{ word.readings[0] }}</div>
                 </div>                
             </div>
             <div id="kanjis">

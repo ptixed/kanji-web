@@ -1,6 +1,9 @@
+var vue;
 var xhr = new XMLHttpRequest();
 xhr.onload  = function () {
     var data = JSON.parse(this.response);
+    
+    // make this an array
     
     for (var id in data.kanjis) {
         data.kanjis[id].id       = id;
@@ -12,13 +15,13 @@ xhr.onload  = function () {
         data.words[id].kanjis    = data.words[id].kanjis   .map(x => data.kanjis  [x]);
     }
     
-    new Vue({
+    vue = new Vue({
         el: '#app',
         data: {
             data: data,
             word: null,
-            filter: '',
-            prev: ''
+            filter: '2',
+            prev: '2'
         },
         methods: {        
             play (arg) {
@@ -27,7 +30,7 @@ xhr.onload  = function () {
                     ut.lang = "ja-JP";
                     window.speechSynthesis.speak(ut);
                 }
-                else {
+                else if (this.word) {
                     var audio = new Audio(this.word.audios[0]);
                     audio.play();
                 }
@@ -37,45 +40,57 @@ xhr.onload  = function () {
                 this.play();
             },
             keydown () {
-                if (event.keyCode != 38 && event.keyCode != 40)
-                    return false;
-                event.preventDefault()
-                
-                var keys = Object.keys(this.filtered);                    
-                if (keys.length == 0)
-                    return;
-                    
-                if (event.keyCode == 38) {    
-                    if (this.word)
-                        this.word = this.filtered[keys[(keys.indexOf(this.word.id) - 1 + keys.length) % keys.length]];
-                    else
-                        this.word = this.filtered[keys[keys.length - 1]]; 
+                switch (event.keyCode)
+                {
+                    case 13:
+                        this.play();
+                        return;
+                    case 38:
+                    case 40:
+                        event.preventDefault();
+                        
+                        var keys = Object.keys(this.filtered);                    
+                        if (keys.length == 0)
+                            return;
+                            
+                        if (event.keyCode == 38) {    
+                            if (this.word)
+                                this.word = this.filtered[keys[(keys.indexOf(this.word.id) - 1 + keys.length) % keys.length]];
+                            else
+                                this.word = this.filtered[keys[keys.length - 1]]; 
+                        }
+                        else {    
+                            if (this.word)
+                                this.word = this.filtered[keys[(keys.indexOf(this.word.id) + 1              ) % keys.length]];    
+                            else
+                                this.word = this.filtered[keys[0]];
+                        }
+                        return;
                 }
-                else {    
-                    if (this.word)
-                        this.word = this.filtered[keys[(keys.indexOf(this.word.id) + 1              ) % keys.length]];    
-                    else
-                        this.word = this.filtered[keys[0]];
-                }                    
-                
-                this.play();
             }
         },
         computed: {
             filtered () {                    
-                var ret = {};
+                var ret = {};                
                 
-                if (!this.filter)
-                    ret = this.data.words;
-                else 
+                if (!isNaN(parseInt(this.filter))) {
+                    for (var i in this.data.words)
+                        if (this.data.words[i].level == this.filter)
+                            ret[i] = this.data.words[i];
+                }
+                else if (this.filter[0] >= 0x3040 && this.filter[0] < 0x309f) {
                     for (var i in this.data.words)
                         if (this.data.words[i].readings[0].indexOf(this.filter) >= 0)
                             ret[i] = this.data.words[i];
-                    
-                if (this.filter != this.prev) {
-                    this.word = ret[Object.keys(ret)[0]];                            
-                    this.play();
                 }
+                else {
+                    for (var i in this.data.words)
+                        if (this.data.words[i].value.indexOf(this.filter) >= 0)
+                            ret[i] = this.data.words[i];
+                }
+                    
+                if (this.filter != this.prev)
+                    this.word = ret[Object.keys(ret)[0]];
                 
                 this.prev = this.filter;
                 return ret;
