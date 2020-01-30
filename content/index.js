@@ -2,11 +2,12 @@ var data = {};
 var vue = new Vue({
     el: '#app',
     data: {
-        filtered: [], 
-        filter: null,
+        search1: null,
+        filtered1: [], 
+        search2: null,
+        filtered2: [],
         word: null
-    },
-    
+    },    
     mounted () {
         document.addEventListener("keydown", this.keydown);
         
@@ -27,30 +28,15 @@ var vue = new Vue({
             }
             data.words = words;
             
-            vue.filter = '1';
+            vue.search1 = '2';
         };            
-        xhr.open("GET", "load");
+        xhr.open("GET", "db.json");
         xhr.send();
-    },
-    
+    },    
     watch: {
-        filter (filter) {
-            var ret = [];
-            for (var i of data.words)
-                if (i.level == filter || i.readings[0].indexOf(filter) >= 0 || i.value.indexOf(filter) >= 0)
-                    ret.push(i);
-            this.filtered = ret.sort((x, y) => {
-                if (x.level > y.level) return 1;
-                if (x.level < y.level) return -1;
-                if (x.value > y.value) return 1;
-                if (x.value < y.value) return -1;
-                return 0;
-            });
-            if (this.filtered.length > 0)
-                this.word = ret[0];
-        }
-    },
-    
+        search1 (value) { this.filtered1 = this.filter(value); },
+        search2 (value) { this.filtered2 = this.filter(value); }
+    },    
     methods: {        
         play (arg) {
             if (typeof arg == 'string') {
@@ -61,29 +47,38 @@ var vue = new Vue({
             else if (this.word)
                 new Audio(this.word.audios[0]).play();
         },
+        filter (value) {
+            if (!value)
+                return [];
+                
+            var ret = [];
+            for (var i of data.words)
+                if (i.level == value || i.readings[0].indexOf(value) >= 0 || i.value.indexOf(value) >= 0)
+                    ret.push(i);
+                    
+            ret = ret.sort((x, y) => x.level - y.level);            
+            if (ret.length > 0)
+                this.word = ret[0];
+                
+            return ret;
+        },
         keydown () {
+            var filtered = this.filtered2.indexOf(this.word) >= 0 ? this.filtered2 : this.filtered1;
             switch (event.keyCode)
             {
                 case 13:
                     this.play();
                     break;
                 case 38:
-                    if (this.filtered.length > 0)
-                        this.word = this.word 
-                            ? this.filtered[(this.filtered.indexOf(this.word) - 1 + this.filtered.length) % this.filtered.length]
-                            : this.filtered[this.filtered.length - 1]; 
+                    this.word = this.word ? filtered[(filtered.indexOf(this.word) - 1 + filtered.length) % filtered.length] : filtered[filtered.length - 1]; 
                     break;
                 case 40:
-                    if (this.filtered.length > 0)
-                        this.word = this.word 
-                            ? this.filtered[(this.filtered.indexOf(this.word) + 1) % this.filtered.length]
-                            : this.filtered[0];     
+                    this.word = this.word ? filtered[(filtered.indexOf(this.word) + 1) % filtered.length] : filtered[0];     
                     break;
                 default:
                     return;
             }
             event.preventDefault();
         }
-    }
-    
+    }    
 });

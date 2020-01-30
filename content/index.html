@@ -1,18 +1,18 @@
 ﻿<html>
 
 <head>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<link href="style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
     <div id="app">
-        <div id="menu">
-            <div id="search">
-                <input autofocus type="text" v-model="filter" />            
+        <div class="menu">
+            <div class="search">
+                <input type="text" v-model="search1" autofocus />            
             </div>
-            <div id="words">
-                <div v-for="item in filtered" v-on:click="word = item; play();" v-bind:class="{ secondary: item.flag, selected: item == word }">
+            <div class="words">
+                <div v-for="item in filtered1" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
                     {{item.value}}
                 </div>
             </div>
@@ -36,21 +36,31 @@
                     <div class="readings">
                         <div class="onyomi">
                             <div v-for="onyomi in kanji.onyomi">
-                                <span v-bind:class="{ secondary: !onyomi.primary }" v-on:click="play(onyomi.reading)">
-                                    {{onyomi.reading}}
-                                </span>                                
+                                <span v-bind:class="{ secondary: false }" v-on:click="play(onyomi)">
+                                    {{onyomi}}
+                                </span>
                             </div>
                         </div>
-                        <div class="kunyomi">
+                        <div class="kunyomi"> <!-- mark primary -->
                             <div v-for="kunyomi in kanji.kunyomi" >
-                                <span v-bind:class="{ secondary: !kunyomi.primary }" v-on:click="play(kunyomi.reading)">
-                                    {{kunyomi.reading}}
+                                <span v-bind:class="{ secondary: false }" v-on:click="play(kunyomi)">
+                                    {{kunyomi}}
                                 </span>
                             </div>                        
                         </div>
                     </div>
                 </div>
             </div>        
+        </div>
+        <div class="menu">
+            <div class="search">
+                <input type="text" v-model="search2" style="text-align: right" />            
+            </div>
+            <div class="words">
+                <div v-for="item in filtered2" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
+                    {{item.value}}
+                </div>
+            </div>
         </div>
     </div>
     <script src="index.js"></script>

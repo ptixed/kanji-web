@@ -12,8 +12,7 @@ console.error('Starting download with token ' + token.substr(0,1) + '***' + toke
 var data = {
     timestamp: Date.now(),
     words: {},
-    kanjis: {},
-    //radicals: {}
+    kanjis: {}
 };
 
 getpage(process.env.WANIKANIURL || "https://api.wanikani.com/v2/subjects");
@@ -39,27 +38,16 @@ function getpage(url) {
         for (var item of response.data) {
             switch (item.object) {
                 case 'radical':
-                    // data.radicals[item.id] = {
-                        // value: item.data.characters,
-                        // name: item.data.slug
-                    // };
                     break;
                 case 'kanji':
                     data.kanjis[item.id] = {
                         value: item.data.characters,
                         onyomi: item.data.readings
                             .filter(x => x.type == 'onyomi')
-                            .map(x => ({
-                                primary: x.primary,
-                                reading: x.reading
-                            })),
+                            .map(x => x.reading),
                         kunyomi: item.data.readings
                             .filter(x => x.type == 'kunyomi')
-                            .map(x => ({
-                                primary: x.primary,
-                                reading: x.reading
-                            })),
-                        //radicals: item.data.component_subject_ids,
+                            .map(x => x.reading),
                         words: item.data.amalgamation_subject_ids
                     };
                     break;
