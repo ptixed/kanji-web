@@ -12,20 +12,22 @@
                 <input type="text" v-model="search1" autofocus />            
             </div>
             <div class="words">
-                <div v-for="item in filtered1" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
-                    {{item.value}}
+                <div class="word" v-for="item in filtered1" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
+                    <div>{{item.value}}</div>
+                    <div class="star" v-if="item.flag"></div>
                 </div>
             </div>
         </div>
         <div id="content" v-if="word != null">
             <div id="title">
                 <span id="level">({{ word.level }})</span>
+                <div class="star" v-on:click="word.flag = !word.flag; save()"></div>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
             <div id="main">
-                <div id="word">{{word.value}}</div>  
+                <div id="word" v-on:click="play();">{{word.value}}</div>  
                 <div id="word-reading">
                     <div>{{ word.readings[0] }}</div>
                 </div>                
@@ -57,8 +59,9 @@
                 <input type="text" v-model="search2" style="text-align: right" />            
             </div>
             <div class="words">
-                <div v-for="item in filtered2" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
-                    {{item.value}}
+                <div class="word"  v-for="item in filtered2" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
+                    <div>{{item.value}}</div>
+                    <div style="right: 0" class="star" v-if="item.flag"></div>
                 </div>
             </div>
         </div>

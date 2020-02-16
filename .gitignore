@@ -7,3 +7,6 @@
 db.json
 db.bak.json
 
+*.css
+*.map
+

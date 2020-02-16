@@ -69,8 +69,9 @@ function getpage(url) {
                             })
                             .map(x => x.reading),
                         kanjis: item.data.component_subject_ids,
-                        audios: item.data.pronunciation_audios.map(x => x.url),
-                        level: item.data.level
+                        audio: item.data.pronunciation_audios.map(x => x.url)[0],
+                        level: item.data.level,
+                        flag: false
                     };
                     break;
             }

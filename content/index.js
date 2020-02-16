@@ -17,19 +17,19 @@ var vue = new Vue({
             
             for (var id in data.kanjis) {
                 data.kanjis[id].id       = id;
-                data.kanjis[id].words    = data.kanjis[id].words   .map(x => data.words   [x]);
             }
             
             var words = [];
             for (var id in data.words) {
                 data.words[id].id        = id;
-                data.words[id].kanjis    = data.words[id].kanjis   .map(x => data.kanjis  [x]);
+                data.words[id].kanjis    = data.words[id].kanjis.map(x => data.kanjis[x]);
                 words.push(data.words[id]);
             }
             data.words = words;
             
-            vue.search1 = '2';
-        };            
+            vue.search1 = '4';
+            vue.search2 = '';
+        };
         xhr.open("GET", "db.json");
         xhr.send();
     },    
@@ -45,22 +45,30 @@ var vue = new Vue({
                 window.speechSynthesis.speak(ut);
             }
             else if (this.word)
-                new Audio(this.word.audios[0]).play();
+                new Audio(this.word.audio).play();
         },
-        filter (value) {
-            if (!value)
-                return [];
-                
+        filter (value) { 
             var ret = [];
             for (var i of data.words)
-                if (i.level == value || i.readings[0].indexOf(value) >= 0 || i.value.indexOf(value) >= 0)
+                if (!value) {
+                    if (i.flag)
+                        ret.push(i);
+                }
+                else if (i.level == value || i.readings[0].indexOf(value) >= 0 || i.value.indexOf(value) >= 0)
                     ret.push(i);
                     
+            console.log(value);
             ret = ret.sort((x, y) => x.level - y.level);            
             if (ret.length > 0)
                 this.word = ret[0];
                 
             return ret;
+        },
+        save () {
+            var word = this.word;
+            this.filtered1 = this.filter(this.search1);
+            this.filtered2 = this.filter(this.search2);
+            this.word = word;
         },
         keydown () {
             var filtered = this.filtered2.indexOf(this.word) >= 0 ? this.filtered2 : this.filtered1;

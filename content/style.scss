@@ -1,28 +1,48 @@
+
 * {
     font-family: monospace;
-    background: black;
 }
+
 html {
     color: white;
+    background: black;
 }
+
 *::selection { 
     color: black; 
     background: white;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
+
 input {
     color: white;
+    background: black;
     outline: 0;
     font-size: 2rem;
     border: none;
     width: 100%;
 }
+
 .selected {
     color: black;
     background: white;
+    * {
+        filter: invert(0) !important;
+    }
 }
+
+.star {
+    background: url(https://clipart.info/images/ccovers/1559839401black-star-png-10.png);
+    height: 3rem;
+    width: 3rem;
+    background-size: 2rem 2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 #app {
     position: fixed;
     left: 1rem;
@@ -31,7 +51,7 @@ input {
     bottom: 1rem;
     display: flex;
     flex-direction: row;
-}
+    
     .menu {
         display: flex;
         flex-direction: column;
@@ -39,59 +59,87 @@ input {
         padding-right: 1rem;
         font-size: 2rem;
         text-align: center;
-    }
-        .search {
         
-        }
         .words {
             flex: 1;
             overflow-y: scroll;
             overflow-x: hidden;
+            
+            .word {                 
+                position: relative;
+                height: 3rem;
+            }
+            
+            .star {
+                filter: invert(1);
+                position: absolute;
+                top: 0;
+            }
         }
+    }    
+    
     #content {
         flex: 1;
         display: flex;
         flex-direction: column;
         font-size: 3rem;
         text-align: center;
-    }
+        
         #title {
             position: relative;
             padding-top: 1rem;
-        }
-            #level {
+            
+            .star {
+                left: 2rem;
                 position: absolute;
-                right: 2rem;
+                filter: invert(1) !important;
+                background-size: 3rem 3rem;
             }
+        }
+        
+        #level {
+            position: absolute;
+            right: 2rem;
+        }
+        
         #main {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
+            
             #word {
                 font-size: 12rem;
             }
             #word-reading {
                 padding-top: 1rem;
             }
+        }
+        
+            
         #kanjis {
             display: flex;
             flex-direction: row;
-            justify-content: center;
-        }
+            justify-content: center;            
+            
             .kanji {
-                flex-grow: 1;
-            }
+                flex-grow: 1;                
                 .readings {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
                     color: #888;
                 }
-                    .onyomi {
-                        width: 100%;
-                    }
-                    .kunyomi {
-                        width: 100%;
-                    }
+                .onyomi {
+                    width: 100%;
+                }
+                .kunyomi {
+                    width: 100%;
+                }
+            }
+
+        } // #kanjis
+
+    } // #content    
+
+} // #app
