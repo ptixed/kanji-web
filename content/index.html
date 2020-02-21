@@ -1,8 +1,8 @@
 ﻿<html>
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-cookies/vue-cookies.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -10,10 +10,10 @@
     <div id="app">
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="search1" autofocus />            
+                <input type="text" v-model="left.search" autofocus />            
             </div>
             <div class="words">
-                <div class="word" v-for="item in filtered1" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play();" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div class="star" v-if="flags[item.id]"></div>
                 </div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div id="main">
-                <div id="word" v-on:click="play();">{{word.value}}</div>  
+                <div id="word">{{word.value}}</div>  
                 <div id="word-reading">
                     <div>{{ word.readings[0] }}</div>
                 </div>                
@@ -57,10 +57,10 @@
         </div>
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="search2" style="text-align: right" />            
+                <input type="text" v-model="right.search" style="text-align: right" />            
             </div>
             <div class="words">
-                <div class="word"  v-for="item in filtered2" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
+                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item; play();" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div style="right: 0" class="star" v-if="flags[item.id]"></div>
                 </div>

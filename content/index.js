@@ -2,14 +2,20 @@ var data = {};
 var vue = new Vue({
     el: '#app',
     data: {
-        search1: null,
-        filtered1: [], 
-        search2: null,
-        filtered2: [],
+        left: {
+            search: null,
+            filtered: []
+        },
+        right: {
+            search: null,
+            filtered: []
+        },
+        active: null,
         word: null,
         flags: {}
     },    
     mounted () {
+        this.$cookies.config('10000d');
         this.flags = this.$cookies.get('flags') || {};
         document.addEventListener("keydown", this.keydown);
         
@@ -29,15 +35,16 @@ var vue = new Vue({
             }
             data.words = words;
             
-            vue.search1 = '4';
-            vue.search2 = '';
+            vue.left.search = '4';
+            vue.right.search = '';
+            vue.active = vue.left;
         };
         xhr.open("GET", "db.json");
         xhr.send();
     },    
     watch: {
-        search1 (value) { this.filtered1 = this.filter(value); },
-        search2 (value) { this.filtered2 = this.filter(value); }
+        'left.search' (value) { this.left.filtered = this.filter(value); },
+        'right.search' (value) { this.right.filtered = this.filter(value); }
     },    
     methods: {        
         play (arg) {
@@ -70,23 +77,23 @@ var vue = new Vue({
         },
         save () {
             var word = this.word;
-            this.filtered1 = this.filter(this.search1);
-            this.filtered2 = this.filter(this.search2);
+            this.left.filtered = this.filter(this.left.search);
+            this.right.filtered = this.filter(this.right.search);
             this.word = word;
             this.$cookies.set('flags', this.flags);
         },
         keydown () {
-            var filtered = this.filtered2.indexOf(this.word) >= 0 ? this.filtered2 : this.filtered1;
+            var f = this.active.filtered;
             switch (event.keyCode)
             {
                 case 13:
                     this.play();
                     break;
                 case 38:
-                    this.word = this.word ? filtered[(filtered.indexOf(this.word) - 1 + filtered.length) % filtered.length] : filtered[filtered.length - 1]; 
+                    this.word = this.word ? f[(f.indexOf(this.word) - 1 + f.length) % f.length] : f[f.length - 1]; 
                     break;
                 case 40:
-                    this.word = this.word ? filtered[(filtered.indexOf(this.word) + 1) % filtered.length] : filtered[0];     
+                    this.word = this.word ? f[(f.indexOf(this.word) + 1) % f.length] : f[0];     
                     break;
                 default:
                     return;
