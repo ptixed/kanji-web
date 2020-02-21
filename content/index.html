@@ -13,23 +13,22 @@
                 <input type="text" v-model="left.search" autofocus />            
             </div>
             <div class="words">
-                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play();" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item;" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div class="star" v-if="flags[item.id]"></div>
+                    <div class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
                 </div>
             </div>
         </div>
         <div id="content" v-if="word != null">
             <div id="title">
                 <span id="level">({{ word.level }})</span>
-                <div class="star" v-on:click="flags[word.id] = ! flags[word.id]; save()"></div>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
             <div id="main">
-                <div id="word">{{word.value}}</div>  
-                <div id="word-reading">
+                <div id="word" v-on:click="flags[word.id] = ! flags[word.id]; save()">{{word.value}}</div>  
+                <div id="word-reading" v-on:click="play()">
                     <div>{{ word.readings[0] }}</div>
                 </div>                
             </div>
@@ -60,9 +59,9 @@
                 <input type="text" v-model="right.search" style="text-align: right" />            
             </div>
             <div class="words">
-                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item; play();" v-bind:class="{ selected: item == word }">
+                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item;" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div style="right: 0" class="star" v-if="flags[item.id]"></div>
+                    <div style="right: 0" class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
                 </div>
             </div>
         </div>

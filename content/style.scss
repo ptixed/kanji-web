@@ -6,6 +6,13 @@
 html {
     color: white;
     background: black;
+    //background: url(bg.jpg);        
+    background-size: cover;
+}
+
+body {
+    background: rgba(0, 0, 0, 0.8);
+    margin: 0;
 }
 
 *::selection { 
@@ -88,13 +95,6 @@ input {
         #title {
             position: relative;
             padding-top: 1rem;
-            
-            .star {
-                left: 2rem;
-                position: absolute;
-                filter: invert(1) !important;
-                background-size: 3rem 3rem;
-            }
         }
         
         #level {
@@ -128,7 +128,6 @@ input {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
-                    color: #888;
                 }
                 .onyomi {
                     width: 100%;
