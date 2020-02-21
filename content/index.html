@@ -2,6 +2,7 @@
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -14,14 +15,14 @@
             <div class="words">
                 <div class="word" v-for="item in filtered1" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div class="star" v-if="item.flag"></div>
+                    <div class="star" v-if="flags[item.id]"></div>
                 </div>
             </div>
         </div>
         <div id="content" v-if="word != null">
             <div id="title">
                 <span id="level">({{ word.level }})</span>
-                <div class="star" v-on:click="word.flag = !word.flag; save()"></div>
+                <div class="star" v-on:click="flags[word.id] = ! flags[word.id]; save()"></div>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
@@ -43,7 +44,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="kunyomi"> <!-- mark primary -->
+                        <div class="kunyomi">
                             <div v-for="kunyomi in kanji.kunyomi" >
                                 <span v-bind:class="{ secondary: false }" v-on:click="play(kunyomi)">
                                     {{kunyomi}}
@@ -61,7 +62,7 @@
             <div class="words">
                 <div class="word"  v-for="item in filtered2" v-on:click="word = item; play();" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div style="right: 0" class="star" v-if="item.flag"></div>
+                    <div style="right: 0" class="star" v-if="flags[item.id]"></div>
                 </div>
             </div>
         </div>

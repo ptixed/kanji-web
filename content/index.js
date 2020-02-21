@@ -6,9 +6,11 @@ var vue = new Vue({
         filtered1: [], 
         search2: null,
         filtered2: [],
-        word: null
+        word: null,
+        flags: {}
     },    
     mounted () {
+        this.flags = this.$cookies.get('flags') || {};
         document.addEventListener("keydown", this.keydown);
         
         var xhr = new XMLHttpRequest();
@@ -49,15 +51,17 @@ var vue = new Vue({
         },
         filter (value) { 
             var ret = [];
+            
             for (var i of data.words)
                 if (!value) {
-                    if (i.flag)
+                    if (this.flags[i.id])
                         ret.push(i);
                 }
-                else if (i.level == value || i.readings[0].indexOf(value) >= 0 || i.value.indexOf(value) >= 0)
-                    ret.push(i);
+                else {
+                    if (i.level == value || i.readings[0].indexOf(value) >= 0 || i.value.indexOf(value) >= 0)
+                        ret.push(i);
+                }
                     
-            console.log(value);
             ret = ret.sort((x, y) => x.level - y.level);            
             if (ret.length > 0)
                 this.word = ret[0];
@@ -69,6 +73,7 @@ var vue = new Vue({
             this.filtered1 = this.filter(this.search1);
             this.filtered2 = this.filter(this.search2);
             this.word = word;
+            this.$cookies.set('flags', this.flags);
         },
         keydown () {
             var filtered = this.filtered2.indexOf(this.word) >= 0 ? this.filtered2 : this.filtered1;

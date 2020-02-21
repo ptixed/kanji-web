@@ -70,8 +70,7 @@ function getpage(url) {
                             .map(x => x.reading),
                         kanjis: item.data.component_subject_ids,
                         audio: item.data.pronunciation_audios.map(x => x.url)[0],
-                        level: item.data.level,
-                        flag: false
+                        level: item.data.level
                     };
                     break;
             }
