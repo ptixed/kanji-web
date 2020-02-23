@@ -1,9 +1,21 @@
-var data = {};
+
+for (var id in data.kanjis) {
+    data.kanjis[id].id       = id;
+}
+
+var words = [];
+for (var id in data.words) {
+    data.words[id].id        = id;
+    data.words[id].kanjis    = data.words[id].kanjis.map(x => data.kanjis[x]);
+    words.push(data.words[id]);
+}
+data.words = words;
+        
 var vue = new Vue({
     el: '#app',
     data: {
         left: {
-            search: null,
+            search: '4',
             filtered: []
         },
         right: {
@@ -17,30 +29,9 @@ var vue = new Vue({
     mounted () {
         this.$cookies.config('10000d');
         this.flags = this.$cookies.get('flags') || {};
-        document.addEventListener("keydown", this.keydown);
-        
-        var xhr = new XMLHttpRequest();
-        xhr.onload  = function () {
-            data = JSON.parse(this.response); 
-            
-            for (var id in data.kanjis) {
-                data.kanjis[id].id       = id;
-            }
-            
-            var words = [];
-            for (var id in data.words) {
-                data.words[id].id        = id;
-                data.words[id].kanjis    = data.words[id].kanjis.map(x => data.kanjis[x]);
-                words.push(data.words[id]);
-            }
-            data.words = words;
-            
-            vue.left.search = '4';
-            vue.right.search = '';
-            vue.active = vue.left;
-        };
-        xhr.open("GET", "db.json");
-        xhr.send();
+        document.addEventListener("keydown", this.keydown);				
+		this.active = this.left;
+        this.save();
     },    
     watch: {
         'left.search' (value) { this.left.filtered = this.filter(value); },

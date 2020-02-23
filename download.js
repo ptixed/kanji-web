@@ -19,8 +19,8 @@ getpage(process.env.WANIKANIURL || "https://api.wanikani.com/v2/subjects");
 
 function getpage(url) {
     if (!url) {
-        fs.writeFileSync('content/db.json', JSON.stringify(data, null, 4));
-        console.error('Download complete, data written to db.json');
+        fs.writeFileSync('content/db.js', 'var data = ' + JSON.stringify(data, null, 4));
+        console.error('Download complete, data written to db.js');
         return;
     }
     

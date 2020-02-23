@@ -1,0 +1,129 @@
+* {
+  font-family: monospace;
+}
+
+html {
+  color: white;
+  background: black;
+  background-size: cover;
+}
+
+body {
+  background: rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+*::selection {
+  color: black;
+  background: white;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+input {
+  color: white;
+  background: black;
+  outline: 0;
+  font-size: 2rem;
+  border: none;
+  width: 100%;
+}
+
+.selected {
+  color: black;
+  background: white;
+}
+.selected * {
+  filter: invert(0) !important;
+}
+
+.star {
+  background: url(https://clipart.info/images/ccovers/1559839401black-star-png-10.png);
+  height: 3rem;
+  width: 3rem;
+  background-size: 2rem 2rem;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#app {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  top: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+#app .menu {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  padding-right: 1rem;
+  font-size: 2rem;
+  text-align: center;
+}
+#app .menu .words {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#app .menu .words .word {
+  position: relative;
+  height: 3rem;
+}
+#app .menu .words .star {
+  filter: invert(1);
+  position: absolute;
+  top: 0;
+}
+#app #content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 3rem;
+  text-align: center;
+}
+#app #content #title {
+  position: relative;
+  padding-top: 1rem;
+}
+#app #content #level {
+  position: absolute;
+  right: 2rem;
+}
+#app #content #main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#app #content #main #word {
+  font-size: 12rem;
+}
+#app #content #main #word-reading {
+  padding-top: 1rem;
+}
+#app #content #kanjis {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#app #content #kanjis .kanji {
+  flex-grow: 1;
+}
+#app #content #kanjis .kanji .readings {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#app #content #kanjis .kanji .onyomi {
+  width: 100%;
+}
+#app #content #kanjis .kanji .kunyomi {
+  width: 100%;
+}
+
+/*# sourceMappingURL=style.css.map */
