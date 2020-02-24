@@ -2,7 +2,6 @@
 
 <head>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue-cookies/vue-cookies.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -13,26 +12,26 @@
                 <input type="text" v-model="left.search" autofocus />            
             </div>
             <div class="words">
-                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item;" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play();" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
                 </div>
             </div>
         </div>
-        <div id="content" v-if="word != null">
-            <div id="title">
+        <div id="content">
+            <div v-if="word != null" id="title">
                 <span id="level">({{ word.level }})</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
-            <div id="main">
+            <div v-if="word != null" id="main">
                 <div id="word" v-on:click="flags[word.id] = ! flags[word.id]; save()">{{word.value}}</div>  
                 <div id="word-reading" v-on:click="play()">
                     <div>{{ word.readings[0] }}</div>
                 </div>                
             </div>
-            <div id="kanjis">
+            <div v-if="word != null" id="kanjis">
                 <div class="kanji" v-for="kanji in word.kanjis" >
                     <div>{{ kanji.value }}</div>
                     <div class="readings">
@@ -59,7 +58,7 @@
                 <input type="text" v-model="right.search" style="text-align: right" />            
             </div>
             <div class="words">
-                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item;" v-bind:class="{ selected: item == word }">
+                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item; play()" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div style="right: 0" class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
                 </div>

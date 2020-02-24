@@ -1,3 +1,5 @@
+// this script generates content/db.js
+
 let fs = require("fs");
 let request = require("request-promise");
 

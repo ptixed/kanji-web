@@ -75,6 +75,7 @@ input {
             .word {                 
                 position: relative;
                 height: 3rem;
+                cursor: pointer;
             }
             
             .star {
@@ -110,9 +111,11 @@ input {
             
             #word {
                 font-size: 12rem;
+                cursor: pointer;
             }
             #word-reading {
                 padding-top: 1rem;
+                cursor: pointer;
             }
         }
         

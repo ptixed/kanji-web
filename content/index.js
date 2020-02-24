@@ -27,8 +27,7 @@ var vue = new Vue({
         flags: {}
     },    
     mounted () {
-        this.$cookies.config('10000d');
-        this.flags = this.$cookies.get('flags') || {};
+        this.flags = JSON.parse(localStorage.flags || '{}');
         document.addEventListener("keydown", this.keydown);				
 		this.active = this.left;
         this.save();
@@ -71,7 +70,7 @@ var vue = new Vue({
             this.left.filtered = this.filter(this.left.search);
             this.right.filtered = this.filter(this.right.search);
             this.word = word;
-            this.$cookies.set('flags', this.flags);
+            localStorage.flags = JSON.stringify(this.flags);
         },
         keydown () {
             var f = this.active.filtered;
