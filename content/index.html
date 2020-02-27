@@ -20,14 +20,14 @@
         </div>
         <div id="content">
             <div v-if="word != null" id="title">
-                <span id="level">({{ word.level }})</span>
+                <span id="level" v-on:click="flags[word.id] = ! flags[word.id]; save()">[{{ word.level }}]</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
-            <div v-if="word != null" id="main">
-                <div id="word" v-on:click="flags[word.id] = ! flags[word.id]; save()">{{word.value}}</div>  
-                <div id="word-reading" v-on:click="play()">
+            <div v-if="word != null" id="main" v-on:click="play()">
+                <div id="word">{{word.value}}</div>  
+                <div id="word-reading">
                     <div>{{ word.readings[0] }}</div>
                 </div>                
             </div>
