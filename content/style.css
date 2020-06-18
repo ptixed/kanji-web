@@ -1,16 +1,25 @@
 * {
   font-family: monospace;
+  scrollbar-width: none;
 }
 
 html {
   color: white;
-  background: black;
+  background: url(bg.jpg);
   background-size: cover;
+  font-size: 1.25vmin;
 }
 
 body {
   background: rgba(0, 0, 0, 0.8);
   margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 *::selection {
@@ -24,28 +33,19 @@ body {
 
 input {
   color: white;
-  background: black;
+  background: rgba(1, 1, 1, 0.5);
   outline: 0;
   font-size: 2rem;
   border: none;
   width: 100%;
 }
 
-.selected {
-  color: black;
-  background: white;
-}
-.selected * {
-  filter: invert(0) !important;
+.word.selected {
+  border: 1px solid white;
 }
 
-.star {
-  background: url(https://clipart.info/images/ccovers/1559839401black-star-png-10.png);
-  height: 3rem;
-  width: 3rem;
-  background-size: 2rem 2rem;
-  background-position: center;
-  background-repeat: no-repeat;
+.word:not(.selected) {
+  border: 1px solid transparent;
 }
 
 #app {
@@ -72,23 +72,33 @@ input {
 }
 #app .menu .words .word {
   position: relative;
-  height: 3rem;
+  height: 2.8rem;
+  cursor: pointer;
 }
 #app .menu .words .star {
-  filter: invert(1);
   position: absolute;
   top: 0;
+  height: 3rem;
+  width: 3rem;
 }
 #app #content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-align: center;
 }
 #app #content #title {
   position: relative;
   padding-top: 1rem;
+  height: 3rem;
+}
+#app #content #wanikani {
+  position: absolute;
+  left: 2rem;
+  text-decoration: none;
+  width: 4rem;
+  height: 4rem;
 }
 #app #content #level {
   position: absolute;
@@ -102,9 +112,11 @@ input {
 }
 #app #content #main #word {
   font-size: 12rem;
+  cursor: pointer;
 }
 #app #content #main #word-reading {
   padding-top: 1rem;
+  cursor: pointer;
 }
 #app #content #kanjis {
   display: flex;

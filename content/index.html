@@ -9,26 +9,29 @@
     <div id="app">
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="left.search" autofocus />            
+                <input type="text" v-model="left.search" autofocus placeholder="..." />            
             </div>
             <div class="words">
-                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play();" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play(word)" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
+                    <div class="star" v-if="item.fav">🌸</div>
                 </div>
             </div>
         </div>
         <div id="content">
             <div v-if="word != null" id="title">
-                <span id="level" v-on:click="flags[word.id] = ! flags[word.id]; save()">[{{ word.level }}]</span>
+                <a id="wanikani" v-bind:href="'https://www.wanikani.com/vocabulary/' + this.word.value" target="_blank" v-if="word">
+                    <img src="wk.ico" />
+                </a>
+                <span id="level">[{{ word.level }}]</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
-            <div v-if="word != null" id="main" v-on:click="play()">
-                <div id="word">{{word.value}}</div>  
+            <div v-if="word != null" id="main">
+                <div id="word" v-on:click="fav(word)">{{ word.value }}</div>  
                 <div id="word-reading">
-                    <div>{{ word.readings[0] }}</div>
+                    <div v-on:click="play(word)">{{ word.readings[0] }}</div>
                 </div>                
             </div>
             <div v-if="word != null" id="kanjis">
@@ -36,18 +39,18 @@
                     <div>{{ kanji.value }}</div>
                     <div class="readings">
                         <div class="onyomi">
-                            <div v-for="onyomi in kanji.onyomi">
+                            <span v-for="onyomi in kanji.onyomi">
                                 <span v-bind:class="{ secondary: false }" v-on:click="play(onyomi)">
                                     {{onyomi}}
                                 </span>
-                            </div>
+                            </span>
                         </div>
                         <div class="kunyomi">
-                            <div v-for="kunyomi in kanji.kunyomi" >
+                            <span v-for="kunyomi in kanji.kunyomi" >
                                 <span v-bind:class="{ secondary: false }" v-on:click="play(kunyomi)">
                                     {{kunyomi}}
                                 </span>
-                            </div>                        
+                            </span>                        
                         </div>
                     </div>
                 </div>
@@ -55,12 +58,12 @@
         </div>
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="right.search" style="text-align: right" />            
+                <input type="text" v-model="right.search" style="text-align: right" placeholder="..." />            
             </div>
             <div class="words">
-                <div class="word"  v-for="item in right.filtered" v-on:click="active = right; word = item; play()" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in right.filtered" v-on:click="active = right; word = item; play(word)" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
-                    <div style="right: 0" class="star" v-if="flags[item.id]" v-on:click="flags[item.id] = false; save(); $event.stopPropagation();"></div>
+                    <div style="right: 0" class="star" v-if="item.fav">🌸</div>
                 </div>
             </div>
         </div>
