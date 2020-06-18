@@ -28,10 +28,10 @@ var vue = new Vue({
         help: {
             meanings: [ 
                 '>> Wanikani vocab browser <<', 
-                'Use searchboxes to search by level/kanji/pronounciation/meaning',
+                'Use inputs to search by level/kanji/pronounciation/meaning',
                 'Click on the kanji to add/remove it from favorites',
                 'Leave the searchbox empty to show favourites',
-                'Click on wanikani logo to open item on wanikani.com',
+                'Click on wanikani logo to view item on wanikani.com',
                 'Click on the reading to play it'
             ],
             value: 'Start >',
@@ -111,6 +111,12 @@ var vue = new Vue({
                     break;
                 case 40:
                     this.word = this.word ? f[(f.indexOf(this.word) + 1) % f.length] : f[0];     
+                    break;
+                case 39:
+                    this.active = this.right;
+                    break;
+                case 37:
+                    this.active = this.left;
                     break;
                 default:
                     return;
