@@ -6,10 +6,10 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="left.search" autofocus placeholder="..." />            
+                <input type="text" v-model="left.search" v-on:focus="active = left" placeholder="search..." autofocus />            
             </div>
             <div class="words">
                 <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play(word)" v-bind:class="{ selected: item == word }">
@@ -20,10 +20,11 @@
         </div>
         <div id="content">
             <div v-if="word != null" id="title">
-                <a id="wanikani" v-bind:href="'https://www.wanikani.com/vocabulary/' + this.word.value" target="_blank" v-if="word">
+                <a id="wanikani" v-bind:href="'https://www.wanikani.com/vocabulary/' + word.value" target="_blank" tabindex="-1" v-if="word != help">
+                    <span v-if="word.fav">🌸</span>
                     <img src="wk.ico" />
                 </a>
-                <span id="level">[{{ word.level }}]</span>
+                <span v-if="word.level" id="level">level {{ word.level }}</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
@@ -58,7 +59,7 @@
         </div>
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="right.search" style="text-align: right" placeholder="..." />            
+                <input type="text" v-model="right.search" v-on:focus="active = right" placeholder="search..." style="text-align: right" />            
             </div>
             <div class="words">
                 <div class="word" v-for="item in right.filtered" v-on:click="active = right; word = item; play(word)" v-bind:class="{ selected: item == word }">

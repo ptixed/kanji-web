@@ -24,22 +24,36 @@ var vue = new Vue({
             filtered: []
         },
         active: null,
-        word: null
+        word: null,
+        help: {
+            meanings: [ 
+                '>> Wanikani vocab browser <<', 
+                'Use searchboxes to search by level/kanji/pronounciation/meaning',
+                'Click on the kanji to add/remove it from favorites',
+                'Leave the searchbox empty to show favourites',
+                'Click on wanikani logo to open item on wanikani.com',
+                'Click on the reading to play it'
+            ],
+            value: 'Start >',
+            readings: [ '...' ]
+        }
     },    
     mounted () {
         JSON.parse(localStorage.flags || '[]').forEach(x => words[x].fav = true);
         document.addEventListener("keydown", this.keydown);
-        this.right.search = 1;
-        this.left.search = "";
+        this.active = this.left;
+        this.left.search = '';
+        this.right.search = '';
+        this.word = this.help;
     },    
     watch: {
-        'left.search'  (value) { this.active = this.left;  this.left.filtered = this.filter(value); },
-        'right.search' (value) { this.active = this.right; this.right.filtered = this.filter(value); }
+        'left.search' (value)  { this.left.filtered = this.filter(value); },
+        'right.search' (value) { this.right.filtered = this.filter(value); }
     },    
     methods: {        
         play (word) {
-            if (typeof arg == 'string') {
-                var ut = new SpeechSynthesisUtterance(arg)
+            if (typeof word == 'string') {
+                var ut = new SpeechSynthesisUtterance(word)
                 ut.lang = "ja-JP";
                 window.speechSynthesis.speak(ut);
             }
@@ -51,27 +65,32 @@ var vue = new Vue({
             }
         },
         filter (value) {
-            var w = this.word;
             var f = i => i.fav;
             
             if (/^\d+$/.test(value))
                 f = i => i.level == value;
             else if (/^[\u3040-\u30ff]+$/.test(value))
                 f = i => i.readings[0].indexOf(value) >= 0;
-            else if (/^[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]+$/.test(value))
+            else if (/^[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]+$/.test(value))
                 var f = i => i.value.indexOf(value) >= 0;
             else if (value)
                 f = i => i.meanings.filter(x => x.toLowerCase().indexOf(value) >= 0).length > 0;
             
             var ret = data.words.filter(f).sort((x, y) => x.level - y.level);
-            if (ret.length > 0 && !ret.includes(w))
-                this.word = ret[0];
+            
+            if (ret.length > 0 && !ret.includes(this.word) && !(this.word == this.help && !value))
+                this.word = ret[0];            
             if (ret.length > 500)
                 ret = [];
                 
             return ret;
         },
         fav (word) {
+            if (word == this.help) {
+                this.word = null;
+                this.left.search = '今日は';
+                return;
+            }
             word.fav = !word.fav;
             if (word.fav) {
                 if (!this.left.search)

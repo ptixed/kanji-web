@@ -1,4 +1,7 @@
 
+[v-cloak] * { display:none }
+[v-cloak]::before { content: "Loading..." }
+
 * {
     font-family: monospace;
     scrollbar-width: none;
@@ -19,8 +22,8 @@ body {
 }
 
 img {
-    max-width:100%;
-    max-height:100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 *::selection { 
@@ -90,7 +93,7 @@ input {
         flex: 1;
         display: flex;
         flex-direction: column;
-        font-size: 2.5rem;
+        font-size: 2rem;
         text-align: center;
         
         #title {
@@ -101,15 +104,19 @@ input {
         
         #wanikani {
             position: absolute;
-            left: 2rem;
+            right: 2rem;
             text-decoration: none;
-            width: 4rem;
+            font-size: 2.5rem;
             height: 4rem;
+            
+            * {
+                vertical-align: middle;
+            }
         }
         
         #level {
             position: absolute;
-            right: 2rem;
+            left: 2rem;
         }
         
         #main {
@@ -119,7 +126,7 @@ input {
             justify-content: center;
             
             #word {
-                font-size: 12rem;
+                font-size: 8rem;
                 cursor: pointer;
             }
             #word-reading {
@@ -146,6 +153,10 @@ input {
                 }
                 .kunyomi {
                     width: 100%;
+                }
+                
+                span { 
+                    cursor: pointer 
                 }
             }
 
