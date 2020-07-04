@@ -1,7 +1,8 @@
 ﻿<html>
 
 <head>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
     <title>WK Vocab</title>
     <link rel="icon" href="wk.ico" />
@@ -11,10 +12,10 @@
     <div id="app" v-cloak>
         <div class="menu">
             <div class="search">
-                <input type="text" v-model="left.search" v-on:focus="active = left" placeholder="search..." autofocus />            
+                <input type="text" v-model="left.search" v-on:focus="active = left" placeholder="search..." autofocus />
             </div>
             <div class="words">
-                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item; play(word)" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in left.filtered" v-on:click="active = left; word = item" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div class="star" v-if="item.fav">🌸</div>
                 </div>
@@ -22,19 +23,21 @@
         </div>
         <div id="content">
             <div v-if="word != null" id="title">
-                <a id="wanikani" v-bind:href="'https://www.wanikani.com/vocabulary/' + word.value" target="_blank" tabindex="-1" v-if="word != help">
-                    <span v-if="word.fav">🌸</span>
-                    <img src="wk.ico" />
-                </a>
+                <div id="menu" v-if="word != help">
+                    <span v-on:click="fav(word)" v-bind:class="{ gray: !word.fav }" style="transition: all .3s; cursor: pointer">🌸</span>
+                    <a v-bind:href="'https://www.wanikani.com/vocabulary/' + word.value" target="_blank" tabindex="-1" >
+                        <img src="wk.ico" />
+                    </a>
+                </div>
                 <span v-if="word.level" id="level">level {{ word.level }}</span>
                 <div v-for="meaning in word.meanings">                
                     <span>{{ meaning }}</span>
                 </div>
             </div>
             <div v-if="word != null" id="main">
-                <div id="word" v-on:click="fav(word)">{{ word.value }}</div>  
-                <div id="word-reading">
-                    <div v-on:click="play(word)">{{ word.readings[0] }}</div>
+                <div id="word" v-on:click="init()">{{ word.value }}</div>  
+                <div id="word-reading" v-for="reading in word.readings">
+                    <div v-on:click="play(reading.audio)">{{ reading.reading }}</div>
                 </div>                
             </div>
             <div v-if="word != null" id="kanjis">
@@ -64,15 +67,14 @@
                 <input type="text" v-model="right.search" v-on:focus="active = right" placeholder="search..." style="text-align: right" />            
             </div>
             <div class="words">
-                <div class="word" v-for="item in right.filtered" v-on:click="active = right; word = item; play(word)" v-bind:class="{ selected: item == word }">
+                <div class="word" v-for="item in right.filtered" v-on:click="active = right; word = item" v-bind:class="{ selected: item == word }">
                     <div>{{item.value}}</div>
                     <div style="right: 0" class="star" v-if="item.fav">🌸</div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="db.min.js"></script>
     <script src="index.js"></script>
 </body>
-        
+
 </html>
